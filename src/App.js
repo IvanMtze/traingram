@@ -1,12 +1,19 @@
-import React,{useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Post from './Post';
-function App() {
-  const [posts, setPosts]=useState([
-    {imageUrl:"https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png", username:"Iván", caption:"Hi there"},
-    {imageUrl:"https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png", username:"Iván", caption:"Hi there"}
-  ]);
+import { db } from './firebase';
 
+function App() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    db.collection('posts').onSnapshot(snapshot => {
+      setPosts(snapshot.docs.map(doc => ({
+        id: doc.id,
+        post: doc.data()
+      })));
+    })
+  }, []);
 
   return (
     <div className="app">
@@ -19,12 +26,9 @@ function App() {
       </div>
       <h1>Hello from instagram clone</h1>
       {
-        posts.map(post => (<Post username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>))
+        posts.map(({id,post}) => (<Post key = {id} username={post.username} caption={post.caption} imageUrl={post.imageUrl} />))
       }
-
-      <Post imageUrl="https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png" username="Iván" caption="Hi there"/>
-      <Post imageUrl="https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png" username="Thomas" caption="Hi there"/>
-      <Post imageUrl="https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png" username="Gordon" caption="Hi there"/>      {/* Post*/}
+      {/* Post*/}
       {/* Post*/}
     </div>
   );
