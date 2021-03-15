@@ -11,7 +11,9 @@ function App() {
         />
       </div>
       <h1>Hello from instagram clone</h1>
-      <Post></Post>
+      <Post/>
+      <Post/>
+      <Post/>
       {/* Post*/}
       {/* Post*/}
     </div>
