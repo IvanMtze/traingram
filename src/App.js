@@ -1,6 +1,13 @@
+import React,{useState} from 'react';
 import './App.css';
 import Post from './Post';
 function App() {
+  const [posts, setPosts]=useState([
+    {imageUrl:"https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png", username:"Iván", caption:"Hi there"},
+    {imageUrl:"https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png", username:"Iván", caption:"Hi there"}
+  ]);
+
+
   return (
     <div className="app">
       {/* Header*/}
@@ -11,10 +18,13 @@ function App() {
         />
       </div>
       <h1>Hello from instagram clone</h1>
-      <Post/>
-      <Post/>
-      <Post/>
-      {/* Post*/}
+      {
+        posts.map(post => (<Post username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>))
+      }
+
+      <Post imageUrl="https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png" username="Iván" caption="Hi there"/>
+      <Post imageUrl="https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png" username="Thomas" caption="Hi there"/>
+      <Post imageUrl="https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png" username="Gordon" caption="Hi there"/>      {/* Post*/}
       {/* Post*/}
     </div>
   );

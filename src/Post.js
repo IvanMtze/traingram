@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Post.css';
 import Avatar from '@material-ui/core/Avatar';
 
-export class Post
-    extends Component {
-    render() {
+function Post({username, caption, imageUrl}) {
         return (
             <div className="post">
                 {/* header -> avatar + username*/}
@@ -13,19 +11,18 @@ export class Post
                         alt="RafehQazi"
                         src="https://i.ytimg.com/vi/ZX8p4_6jkoc/hqdefault.jpg"
                     />
-                    <h3>username</h3>
+                    <h3>{username}</h3>
                 </div>
                 {/* post image */}
                 <img className="post__image"
-                    src="https://www.freecodecamp.org/news/content/images/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png"
+                    src={imageUrl}
                     alt=""
                 />
                 {/* username + caption*/}
                 <h4 className="post__text">
-                    <strong>Ivan: </strong> This works</h4>
+                    <strong>{username}: </strong>{caption}</h4>
             </div>
         )
-    }
 }
 
 export default Post
