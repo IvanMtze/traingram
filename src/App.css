@@ -13,3 +13,13 @@
   border-bottom: 1px solid lightgray;
   background-color: white;
 }
+
+.app__signup{
+  display: flex;
+  flex-direction: column;
+}
+
+.app_loginContainer{
+  display: flex;
+  float: right;
+}
