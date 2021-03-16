@@ -186,7 +186,7 @@ function App() {
 
 
       {
-        posts.map(({ id, post }) => (<Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl} />))
+        posts.map(({ id, post }) => (<Post key={id} postId={id} actualUser={user} username={post.username} caption={post.caption} imageUrl={post.imageUrl} />))
       }
       {user?.displayName ? (<ImageUpload username={user.displayName} />) : (<h3>Login to upload</h3>)}
     </div>
