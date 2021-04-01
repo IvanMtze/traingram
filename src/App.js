@@ -1,195 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React from "react";
 import './App.css';
-import Post from './Post';
-import { auth, db } from './firebase';
-import Modal from '@material-ui/core/Modal';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, Input } from '@material-ui/core';
-import ImageUpload from './ImageUpload';
-import './ImageUpload.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './components/home/Home';
+import FacebookLoginComponent from './components/login/FacebookLoginComponent';
+import GuardedRoute from './services/GuardedRoute';
+import Header from "./components/header/Header";
+
+export const AuthContext = React.createContext(); // added this
+const initialState = {
+  isAuthenticated: false,
+  user: null,
+};
 
 
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "LOGIN":
+      localStorage.setItem("user", state);
 
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
-
+      return {
+        ...state,
+        isAuthenticated: true,
+        user: state
+      };
+    case "LOGOUT":
+      localStorage.clear();
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null
+      };
+    default:
+      return state;
+  }
+};
 function App() {
-  const classes = useStyles();
-  const [modalStyle] = React.useState(getModalStyle);
-
-  const [posts, setPosts] = useState([]);
-
-  const [open, setOpen] = useState(false);
-  const [openSignIn, setOpenSignIn] = useState(false);
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        // user logged in
-        setUser(authUser);
-      }
-      else {
-        // user logged out
-        setUser(null);
-      }
-    });
-    return () => {
-
-      unsubscribe();
-    }
-  }, [user, username]);
-
-  useEffect(() => {
-    db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-      setPosts(snapshot.docs.map(doc => ({
-        id: doc.id,
-        post: doc.data()
-      })));
-    })
-  }, []);
-
-
-  const signup = (event) => {
-    event.preventDefault();
-    auth.createUserWithEmailAndPassword(email, password)
-      .then((authUser) => {
-        authUser.user.updateProfile({
-          displayName: username,
-        })
-      })
-      .catch((error) => alert(error.message));
-    setOpen(false);
-  }
-
-  const signIn = (event) => {
-    event.preventDefault();
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .catch((error) => alert(error.message));
-
-    // Close modal
-    setOpenSignIn(false);
-  }
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  console.log(state.isAuthenticated)
   return (
-    <div className="app">
 
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}>
-        <div style={modalStyle} className={classes.paper}>
-          <form className="app__signup">
-            <center>
-              <img
-                className="app__headerImage"
-                height="40px;"
-                src="https://toogreen.ca/instagreen/img/instagreen.svg"
-                alt=""
-              />
-            </center>
+    <AuthContext.Provider value={{
+      state,
+      dispatch
+    }}>
+      <Router>
+        <Switch>
+          <GuardedRoute exact path='/' component={Home} auth={state.isAuthenticated} />
+          <Route path='/login' component={FacebookLoginComponent} />
+        </Switch>
+      </Router>
+    </AuthContext.Provider>
 
-            <Input
-              type="text"
-              placeholder="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <Input
-              placeholder="email"
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <Input
-              placeholder="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Button type="submit" onClick={signup}>Sign Up</Button>
-          </form>
-        </div>
-      </Modal>
-      <Modal
-        open={openSignIn}
-        onClose={() => setOpenSignIn(false)}
-      >
-        <div style={modalStyle} className={classes.paper}>
-          <form className="app__signup">
-            <center>
-              <img
-                className="app__headerImage"
-                src="https://toogreen.ca/instagreen/img/instagreen.svg"
-                height="40px;"
-                alt=""
-              />
-            </center>
-
-            <Input
-              placeholder="email"
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <Input
-              placeholder="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Button type="submit" onClick={signIn}>Sign In</Button>
-          </form>
-        </div>
-      </Modal>
-
-      <div className="app__header">
-        <img className="app__header__img"
-          src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
-          alt=""
-        />
-        {user ? (
-          <Button onClick={() => auth.signOut()}>Logout</Button>
-        ) : (
-          <div className="app_loginContainer">
-            <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
-            <Button onClick={() => setOpen(true)}>Sign Up</Button>
-          </div>
-        )
-        }
-      </div>
-
-
-
-      {
-        posts.map(({ id, post }) => (<Post key={id} postId={id} actualUser={user} username={post.username} caption={post.caption} imageUrl={post.imageUrl} />))
-      }
-      {user?.displayName ? (<ImageUpload username={user.displayName} />) : (<h3>Login to upload</h3>)}
-    </div>
   );
 }
 

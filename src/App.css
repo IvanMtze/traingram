@@ -5,25 +5,3 @@
   background-color: #fafafa;
   height: 100%;
 }
-.app_postsRight{
-  margin-left: 20px;
-}
-.app__header{
-  position:sticky;
-  top:0;
-  z-index: 1;
-  object-fit: contain;
-  padding: 20px;
-  border-bottom: 1px solid lightgray;
-  background-color: white;
-}
-
-.app__signup{
-  display: flex;
-  flex-direction: column;
-}
-
-.app_loginContainer{
-  display: flex;
-  float: right;
-}
