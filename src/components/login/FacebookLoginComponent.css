@@ -1,0 +1,233 @@
+.article {
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 32px auto 0;
+  max-width: 935px;
+  padding-bottom: 32px;
+  width: 100%;
+}
+@media (max-width: 875px) {
+  .div_outer_article_b {
+    display: none;
+  }
+}
+@media (max-width: 450px) {
+  .article {
+    margin-top: 0;
+  }
+}
+
+.div_outer_article {
+  align-self: center;
+  background-image: url(https://www.instagram.com/static/images/homepage/home-phones.png/43cc71bb1b43.png);
+  background-position: 0 0;
+  background-size: 454px 618px;
+  flex-basis: 454px;
+  height: 618px;
+  margin-left: -35px;
+  margin-right: -15px;
+}
+
+.div__container__ss__img {
+  margin: 99px 0 0 151px;
+  position: relative;
+}
+.img__ss {
+  height: 427px;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  visibility: hidden;
+  width: 240px;
+}
+.img__ss__b {
+  opacity: 1;
+  visibility: visible;
+}
+
+article,
+div,
+footer,
+header,
+main,
+nav,
+section {
+  align-items: stretch;
+  border: 0 solid #000;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+
+.div__outer__b {
+  min-height: 100%;
+  overflow: hidden;
+}
+.main__a {
+  flex-grow: 1;
+  order: 4;
+}
+.main__b{
+  background-color: #fafafa;
+  background-color: rgba(var(--b3f, 250, 250, 250), 1);
+}
+.div__outer {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.div__article__a {
+  color: #262626;
+  color: rgba(var(--i1d, 38, 38, 38), 1);
+  flex-grow: 1;
+  justify-content: center;
+  margin-top: 12px;
+  max-width: 350px;
+}
+.div__article__b {
+  align-items: center;
+  background-color: #fff;
+  background-color: rgba(var(--d87, 255, 255, 255), 1);
+  border: 1px solid #dbdbdb;
+  border: 1px solid rgba(var(--b6a, 219, 219, 219), 1);
+  border-radius: 1px;
+  margin: 0 0 10px;
+  padding: 10px 0;
+}
+.div__article__b:last-child {
+  margin-bottom: 0;
+}
+.div__article__b:empty {
+  display: none;
+}
+.img_logo__a {
+  margin: 22px auto 12px;
+}
+@media (max-width: 450px) {
+  .div__article__a {
+    justify-content: space-between;
+    margin-top: 0;
+    max-width: 100%;
+  }
+  .div__article__b {
+    background-color: transparent;
+    border: 0;
+  }
+}
+.div__container__form_input__inner {
+  align-items: center;
+  background: #fafafa;
+  background: rgba(var(--b3f, 250, 250, 250), 1);
+  border: 1px solid #dbdbdb;
+  border: 1px solid rgba(var(--ca6, 219, 219, 219), 1);
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #262626;
+  color: rgba(var(--i1d, 38, 38, 38), 1);
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  position: relative;
+  width: 100%;
+}
+.input_input_field_a {
+  background: #fafafa;
+  background: rgba(var(--b3f, 250, 250, 250), 1);
+  border: 0;
+  flex: 1 0 auto;
+  margin: 0;
+  outline: 0;
+  overflow: hidden;
+  padding: 9px 0 7px 8px;
+  text-overflow: ellipsis;
+}
+.div_space_input {
+  align-items: center;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 100%;
+  padding-right: 8px;
+  vertical-align: middle;
+}
+.label_input_field {
+  display: flex;
+  height: 36px;
+  flex: 1 0 0;
+  padding: 0;
+  position: relative;
+  margin: 0;
+  min-width: 0;
+}
+.spam_input_field {
+  color: #8e8e8e;
+  color: rgba(var(--f52, 142, 142, 142), 1);
+  font-size: 12px;
+  height: 36px;
+  left: 8px;
+  line-height: 36px;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  text-overflow: ellipsis;
+  transform-origin: left;
+  user-select: none;
+  white-space: nowrap;
+}
+.label_input_field .input_input_field_b {
+  font-size: 16px;
+}
+ .spam_input_field {
+  transform: scale(0.83333) translateY(-10px);
+}
+ .input_input_field_b {
+  font-size: 12px;
+  padding: 14px 0 2px 8px !important;
+}
+.input_input_field_c:disabled {
+  background-color: #efefef;
+  background-color: rgba(var(--bb2, 239, 239, 239), 1);
+  border-color: #dbdbdb;
+  border-color: rgba(var(--b38, 219, 219, 219), 1);
+  color: #8e8e8e;
+  color: rgba(var(--f52, 142, 142, 142), 1);
+  cursor: not-allowed;
+}
+.div__other__login__option__outer {
+  flex-direction: row;
+}
+.div__other__login__option {
+  flex-grow: 1;
+  flex-shrink: 1;
+  background-color: #dbdbdb;
+  background-color: rgba(var(--b38, 219, 219, 219), 1);
+  height: 1px;
+  position: relative;
+  top: 0.45em;
+}
+.div__o {
+  color: #8e8e8e;
+  color: rgba(var(--f52, 142, 142, 142), 1);
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 15px;
+  margin: 0 18px;
+  text-transform: uppercase;
+}
+.div__container__form_input__outer {
+  margin: 0 40px 6px;
+}
+.div_final_empty {
+  margin-bottom: 10px;
+  max-width: 350px;
+  width: 100%;
+}

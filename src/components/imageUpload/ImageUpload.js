@@ -1,7 +1,8 @@
 import { Button } from '@material-ui/core'
 import React, { useState } from 'react'
-import { db, storage } from '../../firebase';
+import { db, storage, auth} from '../../firebase';
 import firebase from "firebase"
+import { AuthContext } from '../../App';
 
 function ImageUpload({ username }) {
 
@@ -9,6 +10,7 @@ function ImageUpload({ username }) {
     const [image, setImage] = useState(null);
     const [progress, setProgress] = useState(0);
 
+    const {state} = React.useContext(AuthContext);
     const handleChange = (e) => {
         if (e.target.files[0]) {
             setImage(e.target.files[0]);
@@ -16,8 +18,8 @@ function ImageUpload({ username }) {
     }
 
     const handleUpload = () => {
-        const uploadTask = storage.ref(`images/${image.name}`).put(image);
-
+        const uploadTask = storage.ref(`users/${auth.currentUser.uid}/${image.name}`).put(image);
+        
         uploadTask.on(
             "state_changed",
             (snapshot) => {
@@ -29,17 +31,21 @@ function ImageUpload({ username }) {
                 alert(error.message);
             },
             () => {
-                storage.ref("images").child(image.name).getDownloadURL().then(url => {
-                    db.collection("posts").add({
+                storage.ref("users/"+auth.currentUser.uid).child(image.name).getDownloadURL().then(url => {
+                    db.collection('users').doc(auth.currentUser.uid).collection('posts').add({
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                         caption: caption,
                         imageUrl: url,
-                        username: username,
+                        username: state.user.user.displayName,
                         imagename: image.name
+                    });
+                    db.collection('users').doc(auth.currentUser.uid).set({
+                       lastUpdate:firebase.firestore.FieldValue.serverTimestamp() 
                     });
                     setProgress(0);
                     setCaption("");
                     setImage(null);
+                    console.log('ok')
                 });
             }
         );

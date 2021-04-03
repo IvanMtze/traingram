@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './components/home/Home';
 import FacebookLoginComponent from './components/login/FacebookLoginComponent';
 import GuardedRoute from './services/GuardedRoute';
-import Header from "./components/header/Header";
-
+import {auth} from './firebase'
+ 
 export const AuthContext = React.createContext(); // added this
 const initialState = {
   isAuthenticated: false,
@@ -17,14 +17,14 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
       localStorage.setItem("user", state);
-
       return {
         ...state,
         isAuthenticated: true,
-        user: state
+        user: action.payload
       };
     case "LOGOUT":
       localStorage.clear();
+      auth.signOut();
       return {
         ...state,
         isAuthenticated: false,
@@ -36,7 +36,6 @@ const reducer = (state, action) => {
 };
 function App() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  console.log(state.isAuthenticated)
   return (
 
     <AuthContext.Provider value={{
@@ -45,7 +44,7 @@ function App() {
     }}>
       <Router>
         <Switch>
-          <GuardedRoute exact path='/' component={Home} auth={state.isAuthenticated} />
+          <GuardedRoute exact path='/' component={Home} auth={auth.currentUser!=null} />
           <Route path='/login' component={FacebookLoginComponent} />
         </Switch>
       </Router>
