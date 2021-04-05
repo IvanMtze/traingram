@@ -40,8 +40,8 @@ function Post({
         let unsubscribe;
         if (postId) {
             unsubscribe = db
-                .collection("/users/" + postedUserId + "/posts")
-                .doc(postId)
+                .collection("/users/" + postedUserId.toString() + "/posts")
+                .doc(postId.toString())
                 .collection("comments")
                 .orderBy("timestamp", "asc")
                 .onSnapshot((snapshot) => {

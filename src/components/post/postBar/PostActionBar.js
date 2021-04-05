@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Favorite from "@material-ui/icons/Favorite";
@@ -21,20 +21,23 @@ function PostActionBar({ postId, userId, actualUserId }) {
         } else {
             likesUser.likes.push(actualUserId);
         }
-        db.collection("users").doc(userId+'').collection("posts").doc(postId+'').update({
+        db.collection("users").doc(userId.toString()).collection("posts").doc(postId.toString()).update({
             'likes': likesUser.likes
         });
     };
 
-
-    db.collection("users").doc(userId+'').collection("posts").doc(postId+'').get().then((doc) => {
-        if (doc.exists){
-        setLikesUser({ likes: doc.data().likes})
-        if (doc.data().likes.indexOf(actualUserId) > -1) {
-            setState({ checkedA: true })
+    useEffect(()=>{
+        db.collection("users").doc(userId.toString()).collection("posts").doc(postId.toString()).get().then((doc) => {
+            if (doc.exists){
+            setLikesUser({ likes: doc.data().likes})
+            if (doc.data().likes.indexOf(actualUserId) > -1) {
+                setState({ checkedA: true })
+            }
         }
-    }
-    });
+        });
+    },[userId,actualUserId,postId])
+
+
     return (
         <div className="options__bar">
             <div className="div__likes">

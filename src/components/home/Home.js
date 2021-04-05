@@ -13,7 +13,7 @@ function Home() {
 
 
     const mapPosts = function (doc) {
-        db.collection('users/' + doc.id + '/posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+        db.collection('users/' + doc.id.toString() + '/posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
             setPosts(snapshot.docs.map(docu => ({
                 id: docu.id,
                 post: docu.data(),

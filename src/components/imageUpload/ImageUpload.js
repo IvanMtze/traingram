@@ -20,7 +20,7 @@ function ImageUpload({ username }) {
     const handleUpload = () => {
         if(!image)
             return;
-        const uploadTask = storage.ref(`users/${auth.currentUser.uid}/${image.name}`).put(image);
+        const uploadTask = storage.ref(`users/${auth.currentUser.uid.toString()}/${image.name.toString()}`).put(image);
         
         uploadTask.on(
             "state_changed",
@@ -32,8 +32,8 @@ function ImageUpload({ username }) {
                 alert(error.message);
             },
             () => {
-                storage.ref("users/"+auth.currentUser.uid).child(image.name).getDownloadURL().then(url => {
-                    db.collection('users').doc(auth.currentUser.uid).collection('posts').add({
+                storage.ref("users/"+auth.currentUser.uid.toString()).child(image.name.toString()).getDownloadURL().then(url => {
+                    db.collection('users').doc(auth.currentUser.uid.toString()).collection('posts').add({
                         'timestamp': firebase.firestore.FieldValue.serverTimestamp(),
                         'caption': caption,
                         'imageUrl': url,

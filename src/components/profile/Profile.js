@@ -21,11 +21,13 @@ function Profile() {
     const { state } = React.useContext(AuthContext);
 
     useEffect(() => {
-        db.collection("users").onSnapshot((querySnapshot) => {
+        let unsubscribe;
+        unsubscribe=db.collection("users").onSnapshot((querySnapshot) => {
             querySnapshot.docs.map((doc)=>{
                 return db.collection("users/" + state.user.user.uid + "/posts")
                     .orderBy("timestamp", "desc")
                     .onSnapshot((snapshot) => {
+                        console.log(snapshot.docs)
                         setPosts(
                             snapshot.docs.map((docu) => ({
                                 id: docu.id,
@@ -37,10 +39,14 @@ function Profile() {
                     });
     });
         });
-    }, [state.user.user.uid]);
+        return () => {
+            unsubscribe();
+        };
+        }, [state.user.user.uid]);
 
 
-    const mapToList = function (id, post, postUserId) {
+    const mapToList = function ({id, post, postUserId}) {
+        console.log(id)
         return <Post
             key={id}
             postId={id}

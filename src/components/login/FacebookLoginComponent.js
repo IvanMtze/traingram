@@ -26,7 +26,7 @@ function FacebookLoginComponent() {
             type: "LOGIN",
             payload: result
           }); 
-          db.collection('users').doc(auth.currentUser.uid).set({
+          db.collection('users').doc(auth.currentUser.uid.toString()).set({
             lastUpdate:firebase.firestore.FieldValue.serverTimestamp(),
             profileImageUrl:auth.currentUser.photoURL,
             userName:auth.currentUser.displayName
