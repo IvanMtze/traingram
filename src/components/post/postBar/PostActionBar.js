@@ -21,13 +21,13 @@ function PostActionBar({ postId, userId, actualUserId }) {
         } else {
             likesUser.likes.push(actualUserId);
         }
-        db.collection("users").doc(userId).collection("posts").doc(postId).update({
+        db.collection("users").doc(userId+'').collection("posts").doc(postId).update({
             'likes': likesUser.likes
         });
     };
 
 
-    db.collection("users").doc(userId).collection("posts").doc(postId).get().then((doc) => {
+    db.collection("users").doc(userId+'').collection("posts").doc(postId+'').get().then((doc) => {
         if (doc.exists){
         setLikesUser({ likes: doc.data().likes})
         if (doc.data().likes.indexOf(actualUserId) > -1) {
