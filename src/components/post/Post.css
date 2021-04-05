@@ -2,9 +2,10 @@
     background-color: white;
     max-width: 500px;
     border: 1px solid lightgray;
-    margin-bottom: 45px;
+    margin-bottom: 15px;
     margin-right: auto;
     margin-left: auto;
+    margin-top: 30px;
 }
 .post__image{
     width: 100%;
@@ -15,7 +16,7 @@
 
 .post__text{
     font-weight: normal;
-    padding: 20px;
+    padding-left: 20px;
 }
 
 .post__header{
@@ -32,9 +33,11 @@
     display: flex;
     margin-top: 10px;
 }
-
+.options__bar{
+    padding-left: 20px;
+}
 .post__comments{
-    padding: 20px;
+    padding-left: 20px;
 }
 .post__input{
     flex:1;
@@ -42,8 +45,11 @@
     padding:10px;
     border-top: 1 px solid lightgray;
 }
-.post_button{
-    flex:0;
-    border: none;
-    border-top: 1px solid lightgray;
+.post__button{
+    color: rgb(0, 119, 255);
+    font-weight: bold;
 }
+.post__button[disabled]{
+    color: rgb(0, 26, 255);
+    opacity: 0.3;
+  }

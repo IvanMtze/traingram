@@ -1,17 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import Home from './components/home/Home';
 import FacebookLoginComponent from './components/login/FacebookLoginComponent';
 import GuardedRoute from './services/GuardedRoute';
-import {auth} from './firebase'
- 
-export const AuthContext = React.createContext(); // added this
-const initialState = {
-  isAuthenticated: false,
-  user: null,
-};
+import { auth } from './firebase'
+import ImageUpload from "./components/imageUpload/ImageUpload";
+import Profile from "./components/profile/Profile";
 
+export const AuthContext = React.createContext(); // added this
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -35,21 +32,29 @@ const reducer = (state, action) => {
   }
 };
 function App() {
+  const [loggedIn, setloggedIn] = useState(false)
+  const initialState = {
+    isAuthenticated: false,
+    user: null,
+  };
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  return (
 
-    <AuthContext.Provider value={{
+
+  return (
+    <AuthContext.Provider  value={{
       state,
       dispatch
     }}>
       <Router>
-        <Switch>
-          <GuardedRoute exact path='/' component={Home} auth={auth.currentUser!=null} />
-          <Route path='/login' component={FacebookLoginComponent} />
-        </Switch>
+          <Switch>
+            <GuardedRoute exact path='/' component={Home} auth={auth.currentUser!=null}/>
+            <GuardedRoute exact path='/profile' component={Profile} auth={auth.currentUser!=null}  />
+            <GuardedRoute exact path='/upload' component={ImageUpload} auth={auth.currentUser!=null}/>
+            <Route path='/login' component={FacebookLoginComponent} />
+          </Switch>
+        
       </Router>
-    </AuthContext.Provider>
-
+      </AuthContext.Provider>
   );
 }
 

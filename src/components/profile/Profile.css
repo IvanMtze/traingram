@@ -1,0 +1,29 @@
+.profile__container{
+    margin-top: 90px;
+    justify-content: center;
+}
+.profile__header{
+    width: auto;
+    align-items: center;
+    display: flex;
+    object-fit: contain;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.settings__op{
+    box-sizing: content-box;
+}
+
+.profile__posts__container{
+    border-top: 1px solid rgba(var(--b6a, 219, 219, 219), 1);
+    height: auto;
+}
+.posts__list{
+  margin-top: 10px;
+}
+.profile__emtpy{
+    color: rgba(var(--f52,142,142,142),1);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin:auto
+}

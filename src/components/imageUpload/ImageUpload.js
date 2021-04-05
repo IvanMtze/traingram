@@ -18,6 +18,8 @@ function ImageUpload({ username }) {
     }
 
     const handleUpload = () => {
+        if(!image)
+            return;
         const uploadTask = storage.ref(`users/${auth.currentUser.uid}/${image.name}`).put(image);
         
         uploadTask.on(
@@ -27,25 +29,21 @@ function ImageUpload({ username }) {
                 setProgress(progress);
             },
             (error) => {
-                console.log(error);
                 alert(error.message);
             },
             () => {
                 storage.ref("users/"+auth.currentUser.uid).child(image.name).getDownloadURL().then(url => {
                     db.collection('users').doc(auth.currentUser.uid).collection('posts').add({
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                        caption: caption,
-                        imageUrl: url,
-                        username: state.user.user.displayName,
-                        imagename: image.name
-                    });
-                    db.collection('users').doc(auth.currentUser.uid).set({
-                       lastUpdate:firebase.firestore.FieldValue.serverTimestamp() 
+                        'timestamp': firebase.firestore.FieldValue.serverTimestamp(),
+                        'caption': caption,
+                        'imageUrl': url,
+                        'username': state.user.user.displayName,
+                        'imagename': image.name,
+                        'likes':[]
                     });
                     setProgress(0);
                     setCaption("");
                     setImage(null);
-                    console.log('ok')
                 });
             }
         );
@@ -54,7 +52,7 @@ function ImageUpload({ username }) {
         <div className="image__upload">
             <progress className="image__upload__progress" value={progress} max="100" />
 
-            <input type="text" placeholder="Enter a caption" value={caption} onChange={event => setCaption(event.target.value)} />
+            <input type="text" placeholder="Escribe una descripción" value={caption} onChange={event => setCaption(event.target.value)} />
             <input type="file" onChange={handleChange} />
 
             <Button onClick={handleUpload} disabled={!image}>

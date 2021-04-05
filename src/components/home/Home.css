@@ -1,21 +1,23 @@
-*{
-    margin: 0;
-  }
-  .app{
-    background-color: #fafafa;
-    height: 100%;
-  }
-  .app_postsRight{
-    margin-left: 20px;
-    
-  }
-  
-  .app__signup{
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .app_loginContainer{
-    display: flex;
-    float: right;
-  }
+* {
+  margin: 0;
+}
+.app {
+  background-color: #fafafa;
+  height: 100%;
+}
+.app_postsRight {
+  margin-left: 20px;
+}
+
+.app__signup {
+  display: flex;
+  flex-direction: column;
+}
+
+.app_loginContainer {
+  display: flex;
+  float: right;
+}
+.posts__list {
+  margin-top: 70px;
+}

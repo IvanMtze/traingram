@@ -3,33 +3,39 @@ import { Card } from 'react-bootstrap';
 import './FacebookLoginComponent.css';
 import { AuthContext } from '../../App';
 import { Redirect } from 'react-router-dom';
-import { firebaseApp, facebookAuthProvider } from '../../firebase';
+import { firebaseApp, facebookAuthProvider, db, auth } from '../../firebase';
 import { Button } from '@material-ui/core';
+import firebase from "firebase"
 
 function FacebookLoginComponent() {
 
-  const [loggedIn, setloggedIn] = useState(false)
   const { dispatch } = React.useContext(AuthContext);
-  
-  const socialLogin = async (provider) => {
-    provider.addScope('public_profile,user_friends,user_photos,email');
+  const [loggedIn, setloggedIn] = useState(false)
 
+  const socialLogin = async (provider) => {
+    provider.addScope('public_profile')
+    provider.addScope('user_friends')
+    provider.addScope('user_photos')
+    provider.addScope('email')
     await firebaseApp
       .auth()
       .signInWithPopup(provider)
       .then(result => {
-        console.log(result);
         if (result != null) {
           dispatch({
             type: "LOGIN",
             payload: result
-          });
+          }); 
+          db.collection('users').doc(auth.currentUser.uid).set({
+            lastUpdate:firebase.firestore.FieldValue.serverTimestamp(),
+            profileImageUrl:auth.currentUser.photoURL,
+            userName:auth.currentUser.displayName
+         });
           setloggedIn(true)
         }
       })
       .catch(error => {
         alert("Intentelo nuevamente");
-        console.log(error);
       });
   }
 
@@ -113,7 +119,7 @@ function FacebookLoginComponent() {
 
           </section>
         ) : (
-          <Redirect to="/" />
+          <Redirect to="" />
         )
 
       }

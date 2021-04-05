@@ -1,0 +1,29 @@
+.div__svg__comment {
+  fill: "#262626";
+  width: 24px;
+  height: 24px;
+}
+svg {
+    fill: rgb(58, 57, 57);
+    height: 24;
+    width: 24;
+}
+.div__likes{
+    width: 30px;
+    height: 30px;
+    align-content:center ;
+    align-content: center;
+    align-items: center;
+}
+.formControl__likes{
+}
+.checkbox__likes{
+    background-color: yellow;
+}
+.options__bar {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row;
+  align-items: center;
+  align-content: flex-start;
+}
