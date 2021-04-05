@@ -21,7 +21,7 @@ function PostActionBar({ postId, userId, actualUserId }) {
         } else {
             likesUser.likes.push(actualUserId);
         }
-        db.collection("users").doc(userId+'').collection("posts").doc(postId).update({
+        db.collection("users").doc(userId+'').collection("posts").doc(postId+'').update({
             'likes': likesUser.likes
         });
     };
