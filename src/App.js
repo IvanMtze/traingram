@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import './App.css';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './components/home/Home';
 import FacebookLoginComponent from './components/login/FacebookLoginComponent';
 import GuardedRoute from './services/GuardedRoute';
@@ -32,7 +32,6 @@ const reducer = (state, action) => {
   }
 };
 function App() {
-  const [loggedIn, setloggedIn] = useState(false)
   const initialState = {
     isAuthenticated: false,
     user: null,

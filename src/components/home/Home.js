@@ -9,30 +9,34 @@ import { AuthContext } from '../../App';
 function Home() {
 
     const [posts, setPosts] = useState([]);
-    const { state, dispatch } = React.useContext(AuthContext);
+    const { state } = React.useContext(AuthContext);
+
+
+    const mapPosts = function (doc) {
+        db.collection('users/' + doc.id + '/posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+            setPosts(snapshot.docs.map(docu => ({
+                id: docu.id,
+                post: docu.data(),
+                postUserId: doc.id,
+            })
+            ))
+        })
+        return;
+    }
 
     useEffect(() => {
         db.collection("users").onSnapshot(querySnapshot => {
-            querySnapshot.docs.map(doc => {
-                db.collection('users/' + doc.id + '/posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-                    setPosts(snapshot.docs.map(docu => ({
-                        id: docu.id,
-                        post: docu.data(),
-                        postUserId:doc.id,
-                    })
-                    ))
-                })
-            })
+            querySnapshot.docs.map(mapPosts)
         });
 
-    }, []); 
-       return (
+    }, []);
+    return (
         <div className="app">
             <Header></Header>
             <div className="posts__list">
                 {
-                    
-                    posts.map(({ id, post,postUserId }) => (<Post key={id} postId={id} actualUser={state.user.user} username={post.username} caption={post.caption} imageUrl={post.imageUrl} postUserProfileImg={post.profileImageUrl} postedUserId={postUserId}/>))
+
+                    posts.map(({ id, post, postUserId }) => (<Post key={id} postId={id} actualUser={state.user.user} username={post.username} caption={post.caption} imageUrl={post.imageUrl} postUserProfileImg={post.profileImageUrl} postedUserId={postUserId} />))
                 }
             </div>
         </div>
