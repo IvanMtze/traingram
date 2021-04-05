@@ -14,8 +14,6 @@ function FacebookLoginComponent() {
 
   const socialLogin = async (provider) => {
     provider.addScope('public_profile')
-    provider.addScope('user_friends')
-    provider.addScope('user_photos')
     provider.addScope('email')
     await firebaseApp
       .auth()
