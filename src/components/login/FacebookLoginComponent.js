@@ -60,7 +60,7 @@ function FacebookLoginComponent() {
                         <div className="div__container__form_input__inner">
                           <label className="label_input_field ">
                             <span className="spam_input_field">Teléfono, usuario o correo electrónico</span>
-                            <input aria-label="Teléfono, usuario o correo electrónico" aria-required="true" autocapitalize="off" autocorrect="off" maxlength="75" name="username" type="text" className="input_input_field_a input_input_field_b input_input_field_c" value="" />
+                            <input aria-label="Teléfono, usuario o correo electrónico" aria-required="true" autoCapitalize="off" autoCorrect="off" maxLength="75" name="username" type="text" className="input_input_field_a input_input_field_b input_input_field_c"/>
                           </label>
                           <div className="div_space_input">
                           </div>
@@ -70,7 +70,7 @@ function FacebookLoginComponent() {
                         <div className="div__container__form_input__inner">
                           <label className="label_input_field">
                             <span className="spam_input_field">Contraseña</span>
-                            <input aria-label="Contraseña" aria-required="true" autocapitalize="off" autocorrect="off" name="password" type="password" class="input_input_field_a input_input_field_b input_input_field_c" value="" />
+                            <input aria-label="Contraseña" aria-required="true" autoCapitalize="off" autoCorrect="off" name="password" type="password" className="input_input_field_a input_input_field_b input_input_field_c"  />
                           </label>
                           <div className="div_space_input">
                           </div>
@@ -100,13 +100,10 @@ function FacebookLoginComponent() {
                               Facebook
                                 </Button>
                           </Card.Header>
-
-
                         </Card>
-
                       </div>
                     </div>
-                    <div claclassNamess="div_final_empty">
+                    <div className="div_final_empty">
 
                     </div>
                   </div>

@@ -12,34 +12,48 @@ function Home() {
     const { state } = React.useContext(AuthContext);
 
 
-    const mapPosts = function (doc) {
-        db.collection('users/' + doc.id.toString() + '/posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-            setPosts(snapshot.docs.map(docu => ({
-                id: docu.id,
-                post: docu.data(),
-                postUserId: doc.id,
-            })
-            ))
-        })
-        return;
-    }
+    console.log(posts)
 
     useEffect(() => {
-        db.collection("users").onSnapshot(querySnapshot => {
-            querySnapshot.docs.map(mapPosts)
-        });
+        const fetch = () => {
+            db.collection("users").get().then(query => {
+                console.log("tengo un nuevo usuario")
+                query.docs.forEach(doc => {
+                    console.log("value:")
+                    console.log(doc.data())
+                    db.collection('users')
+                        .doc(doc.id)
+                        .collection('posts')
+                        .orderBy('timestamp', 'desc')
+                        .get().then(querySnapshot => {
+                            console.log("hey, buscando para"+doc.id)
+                            var postsF = querySnapshot.docs.map(docSnapshot => ({
+                                    id: docSnapshot.id,
+                                    post: docSnapshot.data(),
+                                    postUserId: doc.id,
+                                }));
+                            posts.push(...postsF)
+                            setPosts(posts);
+                        },
+                        )
+                })
+            })
+        }
+        fetch();
+    },[posts,setPosts]);
 
-    }, []);
     return (
         <div className="app">
             <Header></Header>
             <div className="posts__list">
                 {
-
-                    posts.map(({ id, post, postUserId }) => (<Post key={id} postId={id} actualUser={state.user.user} username={post.username} caption={post.caption} imageUrl={post.imageUrl} postUserProfileImg={post.profileImageUrl} postedUserId={postUserId} />))
+                    posts?.map(({ id, post, postUserId }) => (<Post key={id} postId={id} actualUser={state.user.user} username={post.username} caption={post.caption} imageUrl={post.imageUrl} postUserProfileImg={post.profileImageUrl} postedUserId={postUserId} />))
                 }
             </div>
+
+
         </div>
+
     )
 }
 export default Home;
