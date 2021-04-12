@@ -9,16 +9,26 @@ svg {
     width: 24;
 }
 .div__likes{
-    width: 30px;
-    height: 30px;
-    align-content:center ;
-    align-content: center;
-    align-items: center;
-}
+  flex-direction: row;
+  align-items: stretch;
+  align-content: flex-start;
+  margin-right: 10px;
+  }
 .formControl__likes{
+  align-items: stretch;
+  margin-right: 0px;
+}
+.likes__count{
+  font-size: large;
+  text-align: justify;
+}
+.div__likes__count{
+  align-items:stretch ;
+  align-self: center;
 }
 .checkbox__likes{
-    background-color: yellow;
+  height: 14px;
+  width: 14px;
 }
 .options__bar {
   display: flex;

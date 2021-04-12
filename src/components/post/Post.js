@@ -105,7 +105,7 @@ function Post({
 
                 <button
                     id="post_button"
-                    class="post__button disabled"
+                    className="post__button disabled"
                     disabled={!comment.trim()}
                     type="submit"
                     onClick={postComment}
