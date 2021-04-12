@@ -5,49 +5,49 @@ import { db } from '../../firebase';
 import Post from '../post/Post';
 import { } from './Home.css'
 import { AuthContext } from '../../App';
+import { useHistory } from 'react-router';
+
 
 function Home() {
 
     const [posts, setPosts] = useState([]);
     const { state } = React.useContext(AuthContext);
+    const history = useHistory();
 
 
-    console.log(posts)
 
     useEffect(() => {
         const fetch = () => {
             db.collection("users").get().then(query => {
-                console.log("tengo un nuevo usuario")
                 query.docs.forEach(doc => {
-                    console.log("value:")
-                    console.log(doc.data())
                     db.collection('users')
                         .doc(doc.id)
                         .collection('posts')
                         .orderBy('timestamp', 'desc')
                         .get().then(querySnapshot => {
-                            console.log("hey, buscando para"+doc.id)
                             var postsF = querySnapshot.docs.map(docSnapshot => ({
                                     id: docSnapshot.id,
                                     post: docSnapshot.data(),
                                     postUserId: doc.id,
+                                    postUserProfileImg:doc.data().profileImageUrl+'?width=100&height=100'
                                 }));
                             posts.push(...postsF)
                             setPosts(posts);
+                            history.push('/')
                         },
                         )
                 })
             })
         }
         fetch();
-    },[posts,setPosts]);
+    },[posts,setPosts,history]);
 
     return (
         <div className="app">
             <Header></Header>
             <div className="posts__list">
                 {
-                    posts?.map(({ id, post, postUserId }) => (<Post key={id} postId={id} actualUser={state.user.user} username={post.username} caption={post.caption} imageUrl={post.imageUrl} postUserProfileImg={post.profileImageUrl} postedUserId={postUserId} />))
+                    posts?.map(({ id, post, postUserId,postUserProfileImg }) => (<Post key={id} postId={id} actualUser={state.user.user} username={post.username} caption={post.caption} imageUrl={post.imageUrl} postUserProfileImg={postUserProfileImg} postedUserId={postUserId} />))
                 }
             </div>
 

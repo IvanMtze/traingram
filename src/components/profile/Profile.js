@@ -27,7 +27,6 @@ function Profile() {
                 return db.collection("users/" + state.user.user.uid + "/posts")
                     .orderBy("timestamp", "desc")
                     .onSnapshot((snapshot) => {
-                        console.log(snapshot.docs)
                         setPosts(
                             snapshot.docs.map((docu) => ({
                                 id: docu.id,
@@ -46,7 +45,6 @@ function Profile() {
 
 
     const mapToList = function ({id, post, postUserId}) {
-        console.log(id)
         return <Post
             key={id}
             postId={id}
@@ -54,7 +52,7 @@ function Profile() {
             username={post.username}
             caption={post.caption}
             imageUrl={post.imageUrl}
-            postUserProfileImg={post.profileImageUrl}
+            postUserProfileImg={state.user.user.photoURL+'?width=300&height=300'}
             postedUserId={postUserId}
         />
     }
@@ -65,7 +63,7 @@ function Profile() {
             <div className="profile__container">
                 <div className="profile__header">
                     <Avatar
-                        src={state.user.user.photoURL}
+                        src={state.user.user.photoURL+'?width=300&height=300'}
                         classes={{ root: classes.root }}
                     />
                     <h1>{state.user.additionalUserInfo.profile.name}</h1>

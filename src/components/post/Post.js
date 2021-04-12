@@ -12,6 +12,7 @@ function Post({
     postId,
     actualUser,
     postedUserId,
+    postUserProfileImg
 }) {
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState("");
@@ -56,7 +57,7 @@ function Post({
         <div className="post">
             {/* header -> avatar + username*/}
             <div className="post__header">
-                <Avatar className="post__avatar" alt="" src="postUserProfileImg" />
+                <Avatar className="post__avatar" alt="" src={postUserProfileImg} />
                 <h3>{username}</h3>
                 {
                     actualUser.uid===postedUserId? <div>

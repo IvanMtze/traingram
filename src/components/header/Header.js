@@ -35,7 +35,7 @@ function Header() {
                         <Button onClick={() => {
                             history.push('/upload');
                         }}>Nuevo</Button>
-                        <Avatar src={state?.user?.photoURL} />
+                        <Avatar src={state?.user?.user?.photoURL+'?width=300&height=300'} />
                     </div>
                 </div>
             </div>
