@@ -27,6 +27,12 @@ const reducer = (state, action) => {
         isAuthenticated: false,
         user: null
       };
+      case "HEROKU-TOKEN":
+        localStorage.setItem("mongodbtoken", state);
+        return {
+          ...state,
+          mongodbtoken:action.payload
+        };
     default:
       return state;
   }
@@ -35,6 +41,7 @@ function App() {
   const initialState = {
     isAuthenticated: false,
     user: null,
+    mongodbtoken:null
   };
   const [state, dispatch] = React.useReducer(reducer, initialState);
 

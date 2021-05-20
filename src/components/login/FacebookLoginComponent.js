@@ -23,12 +23,57 @@ function FacebookLoginComponent() {
           dispatch({
             type: "LOGIN",
             payload: result
-          }); 
+          });
           db.collection('users').doc(auth.currentUser.uid.toString()).set({
-            lastUpdate:firebase.firestore.FieldValue.serverTimestamp(),
-            profileImageUrl:auth.currentUser.photoURL,
-            userName:auth.currentUser.displayName
-         });
+            lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
+            profileImageUrl: auth.currentUser.photoURL,
+            userName: auth.currentUser.displayName
+          });
+
+          //signup to heroku notification api
+          var myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+
+          var raw = JSON.stringify({
+            "name": auth.currentUser.email,
+            "pass": auth.currentUser.uid,
+            "pass_confirm": auth.currentUser.uid
+          });
+
+          var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+          };
+          fetch("https://traingram.herokuapp.com/api/signup", requestOptions)
+            .then(response => {
+              var myHeaders = new Headers();
+              myHeaders.append("Content-Type", "application/json");
+
+              var raw = JSON.stringify({
+                "name": "prueba",
+                "password": "123456789Aa"
+              });
+
+              var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+              };
+
+              fetch("https://traingram.herokuapp.com/api/login", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                  dispatch({
+                    type: "HEROKU-TOKEN",
+                    payload: result.token
+                  });
+                })
+                .catch(error => console.log('error', error));
+            })
+            .catch(error => console.log('error', error));
           setloggedIn(true)
         }
       })
@@ -60,7 +105,7 @@ function FacebookLoginComponent() {
                         <div className="div__container__form_input__inner">
                           <label className="label_input_field ">
                             <span className="spam_input_field">Teléfono, usuario o correo electrónico</span>
-                            <input aria-label="Teléfono, usuario o correo electrónico" aria-required="true" autoCapitalize="off" autoCorrect="off" maxLength="75" name="username" type="text" className="input_input_field_a input_input_field_b input_input_field_c"/>
+                            <input aria-label="Teléfono, usuario o correo electrónico" aria-required="true" autoCapitalize="off" autoCorrect="off" maxLength="75" name="username" type="text" className="input_input_field_a input_input_field_b input_input_field_c" />
                           </label>
                           <div className="div_space_input">
                           </div>
@@ -70,7 +115,7 @@ function FacebookLoginComponent() {
                         <div className="div__container__form_input__inner">
                           <label className="label_input_field">
                             <span className="spam_input_field">Contraseña</span>
-                            <input aria-label="Contraseña" aria-required="true" autoCapitalize="off" autoCorrect="off" name="password" type="password" className="input_input_field_a input_input_field_b input_input_field_c"  />
+                            <input aria-label="Contraseña" aria-required="true" autoCapitalize="off" autoCorrect="off" name="password" type="password" className="input_input_field_a input_input_field_b input_input_field_c" />
                           </label>
                           <div className="div_space_input">
                           </div>
@@ -79,6 +124,11 @@ function FacebookLoginComponent() {
                       <div >
                         <button disabled="" type="submit">
                           <div>Iniciar sesión</div>
+                        </button>
+                      </div>
+                      <div >
+                        <button disabled="" type="submit">
+                          <div>Registrarse</div>
                         </button>
                       </div>
                       <div className="div__other__login__option__outer ">
