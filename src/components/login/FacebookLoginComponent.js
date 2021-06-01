@@ -35,7 +35,7 @@ function FacebookLoginComponent() {
           myHeaders.append("Content-Type", "application/json");
 
           var raw = JSON.stringify({
-            "name": auth.currentUser.email,
+            "name": auth.currentUser.uid,
             "pass": auth.currentUser.uid,
             "pass_confirm": auth.currentUser.uid
           });
@@ -52,8 +52,8 @@ function FacebookLoginComponent() {
               myHeaders.append("Content-Type", "application/json");
 
               var raw = JSON.stringify({
-                "name": "prueba",
-                "password": "123456789Aa"
+                "name": auth.currentUser.uid,
+                "password": auth.currentUser.uid
               });
 
               var requestOptions = {

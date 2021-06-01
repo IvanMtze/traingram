@@ -102,3 +102,30 @@ align-self: stretch;
   top: 0;
   z-index: 2;
 }
+
+/* CSS used here will be applied after bootstrap.css */
+
+.dropdown {
+  display:inline-block;
+  margin-left:20px;
+  padding:10px;
+  transform-origin: top center;
+}
+
+content{
+    border-radius: 6px;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    width: 100%;
+}
+
+.modal__not{
+  margin-top: 55px;
+  height: fit-content;
+  width: 30%;
+  margin-left: 40%;
+  background-color: white;
+  display: flex;
+}

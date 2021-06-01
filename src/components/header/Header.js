@@ -2,20 +2,24 @@ import { Avatar, Button } from '@material-ui/core';
 import { useState, useEffect } from 'react';
 import React from 'react';
 import Badge from '@material-ui/core/Badge';
+import Modal from '@material-ui/core/Modal/Modal'
 import IconButton from '@material-ui/core/IconButton'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { } from './Header.css';
 import { AuthContext } from '../../App';
 import { useHistory } from 'react-router';
 
+
 function Header() {
     const { state, dispatch } = React.useContext(AuthContext);
     const history = useHistory();
 
+    const [notificationIsActive, setNotificationActive] = useState(false);
     const [items, setItems] = useState([]);
+    const [NotificationsUnreadCount, setNotificationsUnreadCount] = useState(0);
 
     function setNotificationsAsRead() {
-        if(items?.length<=0){return;}
+        if (items?.length <= 0) { return; }
         var myHeaders = new Headers();
         myHeaders.append("x-access-token", state?.mongodbtoken);
         console.log(state)
@@ -29,9 +33,12 @@ function Header() {
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
-        setItems([]);
     }
 
+
+    const handleClose = () => {
+        setNotificationActive(false);
+    };
 
     useEffect(() => {
         var myHeaders = new Headers();
@@ -44,10 +51,17 @@ function Header() {
         };
 
         fetch("https://traingram.herokuapp.com/api/notifications/unread", requestOptions)
-            .then(response => 
+            .then(response =>
                 response.json()
             )
-            .then(result => {console.log(result.notifications);setItems(result.notifications)})
+            .then(result => { console.log(result.notifications); setNotificationsUnreadCount(result.notifications.length) })
+            .catch(error => console.log('error', error));
+
+        fetch("https://traingram.herokuapp.com/api/notifications", requestOptions)
+            .then(response =>
+                response.json()
+            )
+            .then(result => { console.log(result.notifications); setItems(result.notifications) })
             .catch(error => console.log('error', error));
     }, [state])
 
@@ -67,11 +81,25 @@ function Header() {
                         </input>
                     </div>
                     <div className="action_menu">
-                        <IconButton onClick={() => { setNotificationsAsRead() }}>
-                            <Badge badgeContent={items?.length} color="primary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
+                        <div className="dropdown">
+                            <IconButton onClick={() => { setNotificationActive(true); setNotificationsAsRead(); }}>
+                                <Badge badgeContent={NotificationsUnreadCount} color="primary">
+                                    <NotificationsIcon />
+                                </Badge>
+                            </IconButton>
+                            <Modal open={notificationIsActive} onClose={handleClose} className="modal__not" BackdropProps={{ "invisible": "true" }}>
+                                <div>
+                                    {items?.map((notification) => (
+                                        <div>
+                                            <div>
+                                                <h3>{notification.title}</h3>
+                                                <p>{notification.description}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </Modal>
+                        </div>
 
                         <Button onClick={() => {
                             dispatch({
