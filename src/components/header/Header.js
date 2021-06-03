@@ -22,7 +22,7 @@ function Header() {
         if (items?.length <= 0) { return; }
         var myHeaders = new Headers();
         myHeaders.append("x-access-token", state?.mongodbtoken);
-        console.log(state)
+        console.log(state);
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
@@ -43,7 +43,7 @@ function Header() {
     useEffect(() => {
         var myHeaders = new Headers();
         myHeaders.append("x-access-token", state?.mongodbtoken);
-
+        console.log(state?.mongodbtoken);
         var requestOptions = {
             method: 'GET',
             headers: myHeaders,
@@ -54,7 +54,7 @@ function Header() {
             .then(response =>
                 response.json()
             )
-            .then(result => { console.log(result.notifications); setNotificationsUnreadCount(result.notifications.length) })
+            .then(result => { console.log(result);console.log(result.notifications); setNotificationsUnreadCount(result.notifications.length) })
             .catch(error => console.log('error', error));
 
         fetch("https://traingram.herokuapp.com/api/notifications", requestOptions)

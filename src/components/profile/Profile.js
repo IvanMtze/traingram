@@ -66,7 +66,7 @@ function Profile() {
                         src={state.user.user.photoURL+'?width=300&height=300'}
                         classes={{ root: classes.root }}
                     />
-                    <h1>{state.user.additionalUserInfo.profile.name}</h1>
+                    <h1>{state.user.additionalUserInfo.profile?.name}</h1>
                     <IconButton aria-label="conf" className="settings__op">
                         <SettingsIcon />
                     </IconButton>
